@@ -1,4 +1,4 @@
-from server.config import db
+from server.app import db
 
 class Pizza(db.Model):
     __tablename__ = 'pizzas'
@@ -7,4 +7,7 @@ class Pizza(db.Model):
     name = db.Column(db.String, nullable=False)
     ingredients = db.Column(db.String, nullable=False)
 
-    restaurant_pizzas = db.relationship('RestaurantPizza', backref='pizza', cascade='all, delete')
+    restaurant_pizzas = db.relationship('RestaurantPizza', backref='pizza')
+
+    def __repr__(self):
+        return f'<Pizza {self.name}>'
