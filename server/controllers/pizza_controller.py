@@ -1,17 +1,13 @@
 from flask import Blueprint, jsonify
 from server.models.pizza import Pizza
-from server.config import db
 
-pizza_bp = Blueprint('pizza_bp', __name__, url_prefix='/pizzas')
+pizza_bp = Blueprint('pizza_bp', __name__)
 
-@pizza_bp.route('/', methods=['GET'])
+@pizza_bp.route('/pizzas', methods=['GET'])
 def get_pizzas():
     pizzas = Pizza.query.all()
-    pizza_list = []
-    for pizza in pizzas:
-        pizza_list.append({
-            "id": pizza.id,
-            "name": pizza.name,
-            "ingredients": pizza.ingredients
-        })
-    return jsonify(pizza_list), 200
+    return jsonify([{
+        "id": pizza.id,
+        "name": pizza.name,
+        "ingredients": pizza.ingredients
+    } for pizza in pizzas])
